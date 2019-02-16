@@ -41,6 +41,30 @@
 			<artifactId>example-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-core</artifactId>
+			<version>9.7.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-core</artifactId>
+			<version>9.7.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- 添加fastjson依赖包 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.15</version>
+		</dependency>
+		<dependency>
+			<groupId>com.neo</groupId>
+			<artifactId>spring-cloud-consumer</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

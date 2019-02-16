@@ -70,52 +70,54 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
                     return value;
                 }
 
-                if(clz.equals(int.class) ){
+                if(clz.equals(int.class) || clz.equals(Integer.class)){
                     return Integer.parseInt(value);
                 }
-                if(clz.equals(byte.class) ){
+                if(clz.equals(byte.class) || clz.equals(Byte.class)){
                     try {
                        return value.getBytes("UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
-                if(clz.equals(long.class) ){
+                if(clz.equals(long.class) || clz.equals(Long.class)){
                     return Long.parseLong(value);
                 }
-                if(clz.equals(double.class) ){
+                if(clz.equals(double.class) || clz.equals(Double.class)){
                     return Double.parseDouble(value);
                 }
 
-                if(clz.equals(float.class) ){
+                if(clz.equals(float.class) || clz.equals(Float.class)){
                     return Float.parseFloat(value);
                 }
-                if(clz.equals(char.class) ){
+                if(clz.equals(char.class) || clz.equals(Character.class)){
                     return value.toCharArray()[0];
                 }
-                if(clz.equals(short.class) ){
+                if(clz.equals(short.class) || clz.equals(Short.class)){
                     return Short.parseShort(value);
                 }
-                if(clz.equals(boolean.class) ){
+                if(clz.equals(boolean.class) || clz.equals(Boolean.class)){
                     return Boolean.parseBoolean(value);
                 }
                 return value;
     }
 
     /**
-     * 判断object是否为基本类型
+     * 判断object是否为基本类型 (暂时把包装类同时判断，如果有需要单独处理基础类型和包装类型的，
+     *                      再分开处理)
      * @return
      */
     public static boolean isBaseType(Class clz) {
 
-        if (    clz.equals(int.class) ||
-                clz.equals(byte.class) ||
-                clz.equals(long.class) ||
-                clz.equals(double.class) ||
-                clz.equals(float.class) ||
-                clz.equals(char.class) ||
-                clz.equals(short.class) ||
-                clz.equals(boolean.class)) {
+        if (    clz.equals(int.class) ||clz.equals(Integer.class) ||
+                clz.equals(byte.class) ||clz.equals(Byte.class) ||
+                clz.equals(long.class) ||clz.equals(Long.class) ||
+                clz.equals(double.class) ||clz.equals(Double.class) ||
+                clz.equals(float.class) ||clz.equals(Float.class) ||
+                clz.equals(char.class) ||clz.equals(Character.class) ||
+                clz.equals(short.class) ||clz.equals(Short.class) ||
+                clz.equals(boolean.class) || clz.equals(Boolean.class)
+        ){
             return true;
         }
         return false;

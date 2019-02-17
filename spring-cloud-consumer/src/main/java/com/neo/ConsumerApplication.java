@@ -22,7 +22,7 @@ public class ConsumerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ConsumerApplication.class, args);
 	}
-
+	//TODO 下一步需要扩展下expander，在feignclient端，对对象进行转化时不依赖于toString方法。这样也能处理集合等类型。
 
 	@Bean
 	public MappingJackson2HttpMessageConverter getMappingJackson2HttpMessageConverter() {

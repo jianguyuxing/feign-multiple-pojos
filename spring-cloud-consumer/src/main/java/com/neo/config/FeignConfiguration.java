@@ -1,5 +1,8 @@
 package com.neo.config;
 
+import feign.Contract;
+import feign.RequestInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,10 +14,15 @@ public class FeignConfiguration {
 
 
 //    启用Fegin自定义注解
-//    @Bean
-//    public Contract feignContract(){
-//        return new feign.Contract.Default();
-//    }
+    @Bean
+    public Contract feignContract(){
+        return new feign.Contract.Default();
+    }
+
+    @Bean
+    public RequestInterceptor requestInterceptor(){
+        return new CharlesRequestInterceptor();
+    }
 
 //    @Bean
 //    public Contract springMVCContract() {

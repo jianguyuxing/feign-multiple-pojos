@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class HelloController {
@@ -23,21 +26,26 @@ public class HelloController {
         return "22222222hello "+name+"，this is first messge";
     }
 
-    @RequestMapping(value = "/hello3", method = RequestMethod.POST,
-            produces = "application/json", consumes = "application/json")
+    @RequestMapping(value = "/hello3", consumes = "application/json")
     public String index3(
-                         @JsonObject String name,
-                         @JsonObject int number,
-                         @JsonObject Advertiser advertiser,
-                         @JsonObject Material material,
-                         @JsonObject Date date
-                         ) {
+            @JsonObject String name,
+            @JsonObject int number,
+            @JsonObject Integer number2,
+            @JsonObject Advertiser advertiser,
+            @JsonObject Material material,
+            @JsonObject Date date,
+//            @JsonObject List<Material> materials,
+            @JsonObject Map<String, Advertiser> advertiserMap
+            ) {
         String result = "hello3成功进入生产者 \n";
         result += " name: " + name;
         result += " number: " + number;
+        result += " number2: " + number2;
         result += " \n ------------" + advertiser;
         result += " \n ------------ " + material;
         result += " \n ------------ " + date;
+//        result += " \n ------------ " + materials;
+        result += " \n ------------ " + advertiserMap;
         return result;
     }
 }

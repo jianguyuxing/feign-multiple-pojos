@@ -1,6 +1,7 @@
 package com.neo.config;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
@@ -11,11 +12,18 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author Gu Yuxing
@@ -26,17 +34,23 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
+        //此处注明哪些条件下的采用该参数解析器。
+        //有JsonObject注解的采用
         return methodParameter.hasParameterAnnotation(JsonObject.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter,
-                                  ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest,
-                                  WebDataBinderFactory webDataBinderFactory) throws Exception {
+                                  ModelAndViewContainer mavContainer, NativeWebRequest nativeWebRequest,
+                                  WebDataBinderFactory binderFactory) throws Exception {
 
         // 获取Controller中的参数名
         String name = methodParameter.getParameterName();
         String value = nativeWebRequest.getParameter(name);
+        if (value == null) {
+            return null;
+        }
+        value = URLDecoder.decode(value, "UTF-8");
         // 获取Controller中参数的类型
         Class clazz = methodParameter.getParameterType();
 
@@ -45,11 +59,34 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
         }
 
         if(clazz == Date.class){
-            DateFormat dateFormat =  new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy",
-//                    new Locale("zh-CN", "CHINA"),
-                    new Locale("en"));
-            Date date  = dateFormat.parse(value);
+            //根据传入格式处理
+//            DateFormat dateFormat =  new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy",
+//                    new Locale("en"));
+//            Date date  = dateFormat.parse(value);
+
+            //传入是时间戳时
+            Date date = new Date(Long.parseLong(value));
             return date;
+        }
+
+
+
+        //TODO 待办，是集合和map的此处需要单独处理
+
+        if(Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz)){
+            if(java.util.List.class.isAssignableFrom(clazz) ){
+
+                JSONArray array = JSONObject.parseArray(value);
+                return new ArrayList<>(array);
+            }else if(java.util.Set.class.isAssignableFrom(clazz)){
+                Set set = new LinkedHashSet();
+                JSONArray array = JSONObject.parseArray(value);
+                return new LinkedHashSet<>(array);
+            }else if(Map.class.isAssignableFrom(clazz)){
+                return JSONObject.parse(value);
+            }
+
+            System.out.println("集合类型：" + clazz);
         }
 
         // 实例化
@@ -122,4 +159,10 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
         }
         return false;
     }
+
+    protected Object createAttribute(MethodParameter methodParam) throws Exception {
+
+        return BeanUtils.instantiateClass(methodParam.getParameterType());
+    }
+
 }

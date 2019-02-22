@@ -1,15 +1,17 @@
 package com.neo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.neo.config.JsonObject;
 import com.neo.model.Advertiser;
 import com.neo.model.Material;
+import com.neo.remote.HelloRemote2;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +43,23 @@ public class HelloController {
         result += " name: " + name;
         result += " number: " + number;
         result += " number2: " + number2;
-        result += " \n ------------" + advertiser;
+        result += " \n ------------" + JSONObject.toJSONString(advertiser);
         result += " \n ------------ " + material;
         result += " \n ------------ " + date;
 //        result += " \n ------------ " + materials;
         result += " \n ------------ " + advertiserMap;
         return result;
     }
+
+    @RequestMapping(value = "/hello4", consumes = "application/json")
+    public List<Integer> index4(
+            @JsonObject String name,
+            @JsonObject List<Integer> list) {
+
+        String result = "hello4成功进入生产者 \n";
+        result += list;
+        System.out.println(result);
+        return list;
+    }
+
 }

@@ -38,56 +38,13 @@ public class ConsumerController {
 //        return HelloRemote2.hello2(name);
 //    }
 
-    @RequestMapping("/hello3/{name}")
-    public String index3(@PathVariable(value = "name") String name, int number,
-                         Integer number2,
-                         Advertiser advertiser, Material material,
-                         Date date) {
-        System.out.println("hello3成功进入消费者：");
-        System.out.println("name: " + name);
-        System.out.println("number: " + number);
-        System.out.println("number2:" + number2);
-        System.out.println("-- advertiser" + advertiser);
-        System.out.println("-- material" + material);
-//        Date date = new Date();
-
-
-        List materials = new ArrayList();
-        Material materialListField = new Material();
-        materialListField.setSource("MateriaListSource");
-        materialListField.setTitle("MateriaListTitle");
-        Material materialListField2 = new Material();
-        materialListField2.setSource("MateriaListSource2");
-        materialListField2.setTitle("MateriaListTitle2");
-        materials.add(materialListField);
-        materials.add(materialListField2);
-
-        Advertiser a1 = new Advertiser();
-        a1.setCompanyName("a1CName");
-        Advertiser a2 = new Advertiser();
-        a2.setCompanyName("a2CName");
-        Map<String, Advertiser> advertiserMap = new HashMap<>();
-        advertiserMap.put("a1", a1);
-        advertiserMap.put("a2", a2);
-
-        Set set = new HashSet();
-        set.add(materialListField);
-        set.add(a1);
-        System.out.println("set :" + set);
-        System.out.println("setJson:" + JSONObject.toJSONString(set));
-
-        System.out.println("materials:" + materials);
-        System.out.println("-- date" + date);
-        System.out.println("---advertiserMap: " + advertiserMap);
-        System.out.println("消费者参数完毕 --");
-        return HelloRemote2.hello3(
-                name,
-                number,
-                number2,
-                advertiser,
-                material,
-                date,
-//                materials,
-                advertiserMap);
+    @RequestMapping("/hello4/{name}")
+    public String index4(@PathVariable(value = "name") String name) {
+        List list = new ArrayList();
+        list.add(1);
+        list.add(2);
+        System.out.println("hello4成功进入消费者：");
+        List result =  HelloRemote2.hello4(name, list);
+        return JSONObject.toJSON(result).toString();
     }
 }

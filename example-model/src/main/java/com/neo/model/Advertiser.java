@@ -1,9 +1,5 @@
 package com.neo.model;
 
-import com.alibaba.fastjson.JSONObject;
-
-import java.util.List;
-
 /**
  * 广告主
  *
@@ -33,9 +29,8 @@ public class Advertiser {
 
     @Override
     public String toString() {
-//        return "Advertiser{" +
-//                "companyName='" + companyName + '\'' +
-//                '}';
-        return JSONObject.toJSONString(this);
+        return "Advertiser{" +
+                "companyName='" + companyName + '\'' +
+                '}';
     }
 }

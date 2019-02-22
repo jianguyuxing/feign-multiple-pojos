@@ -35,4 +35,10 @@ public interface HelloRemote2 {
 //                         @Param(value = "materials", expander = ToJsonExpander.class) List<Material> materials,
                          @Param(value = "advertiserMap", expander = ToJsonExpander.class) Map<String, Advertiser> advertiserMap
                          );
+
+    @RequestLine(value = "POST /hello4")
+    public List<Integer> hello4(
+            @Param(value = "name", expander = ToJsonExpander.class) String name,
+            @Param(value = "list", expander = ToJsonExpander.class) List<Integer> list
+    );
 }

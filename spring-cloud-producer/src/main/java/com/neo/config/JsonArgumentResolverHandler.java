@@ -2,6 +2,8 @@ package com.neo.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.neo.config.JsonArgument;
+import com.neo.config.JsonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URLDecoder;
@@ -94,6 +97,20 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
             return JSONObject.parse(value);
         }
 
+        //接收类型是数组
+        if(clazz.isArray()){
+            Class elementType = clazz.getComponentType();
+            List list = (List)JSONObject.parseArray(value, elementType);
+            int size = list == null ? 0 : list.size();
+            Object[] arr =(Object[]) Array.newInstance(elementType, size);
+            if(list != null){
+                arr =  list.toArray(arr);
+            }
+            return arr;
+        }
+
+        //普通POJO
+
         // 实例化
         Object target = clazz.newInstance();
 
@@ -130,7 +147,7 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
             if(isArr){
                 obj = JSONObject.parseArray(value, genericClz);
             }else {
-                //除了数组、对象外，还可能是字符串等
+                //value 除了是数组、对象外，还可能是字符串等
                 obj = JSONObject.parseObject(value, genericClz);
             }
 

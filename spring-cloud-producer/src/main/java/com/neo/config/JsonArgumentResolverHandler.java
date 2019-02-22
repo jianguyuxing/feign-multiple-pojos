@@ -1,12 +1,11 @@
-package com.wesdom.wdsp.config;
+package com.neo.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.neo.config.JsonObject;
-import com.neo.config.JsonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -29,13 +28,13 @@ import java.util.Set;
  * @Create 2019-02-16 18:06
  **/
 @Component
-public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolver {
+public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
         //此处注明哪些条件下的采用该参数解析器。
-        //有JsonObject注解的采用
-        return methodParameter.hasParameterAnnotation(JsonObject.class);
+        //有JsonArgument注解的采用该解析器
+        return methodParameter.hasParameterAnnotation(JsonArgument.class);
     }
 
     @Override
@@ -44,11 +43,22 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
                                   WebDataBinderFactory binderFactory) throws Exception {
 
         // 获取Controller中的参数名
-        String name = methodParameter.getParameterName();
-        String value = nativeWebRequest.getParameter(name);
+        String paramName = methodParameter.getParameterName();
+        JsonArgument jsonAnno = methodParameter.getParameterAnnotation(JsonArgument.class);
+        if(StringUtils.hasText(jsonAnno.value())){
+            //优先取注解中的参数值
+            paramName = jsonAnno.value();
+        }
+
+        String value = nativeWebRequest.getParameter(paramName);
+
         if (value == null) {
+            if(jsonAnno.required() == true ){
+                throw new RuntimeException("required param: \"" + paramName + "\"not supported");
+            }
             return null;
         }
+
         value = URLDecoder.decode(value, "UTF-8");
         // 获取Controller中参数的类型
         Class clazz = methodParameter.getParameterType();
@@ -67,8 +77,6 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
             Date date = new Date(Long.parseLong(value));
             return date;
         }
-
-
 
         //集合
         if(Collection.class.isAssignableFrom(clazz) ){
@@ -122,6 +130,7 @@ public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolv
             if(isArr){
                 obj = JSONObject.parseArray(value, genericClz);
             }else {
+                //除了数组、对象外，还可能是字符串等
                 obj = JSONObject.parseObject(value, genericClz);
             }
 

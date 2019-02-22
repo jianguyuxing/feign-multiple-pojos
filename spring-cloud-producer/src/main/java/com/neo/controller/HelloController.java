@@ -1,16 +1,13 @@
 package com.neo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.neo.config.JsonObject;
+import com.neo.config.JsonArgument;
 import com.neo.model.Advertiser;
 import com.neo.model.Material;
-import com.neo.remote.HelloRemote2;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +27,14 @@ public class HelloController {
 
     @RequestMapping(value = "/hello3", consumes = "application/json")
     public String index3(
-            @JsonObject String name,
-            @JsonObject int number,
-            @JsonObject Integer number2,
-            @JsonObject Advertiser advertiser,
-            @JsonObject Material material,
-            @JsonObject Date date,
-//            @JsonObject List<Material> materials,
-            @JsonObject Map<String, Advertiser> advertiserMap
+            @JsonArgument String name,
+            @JsonArgument int number,
+            @JsonArgument Integer number2,
+            @JsonArgument Advertiser advertiser,
+            @JsonArgument Material material,
+            @JsonArgument Date date,
+//            @JsonArgument List<Material> materials,
+            @JsonArgument Map<String, Advertiser> advertiserMap
             ) {
         String result = "hello3成功进入生产者 \n";
         result += " name: " + name;
@@ -53,8 +50,8 @@ public class HelloController {
 
     @RequestMapping(value = "/hello4", consumes = "application/json")
     public List<Integer> index4(
-            @JsonObject String name,
-            @JsonObject List<Integer> list) {
+            @JsonArgument String name,
+            @JsonArgument List<Integer> list) {
 
         String result = "hello4成功进入生产者 \n";
         result += list;

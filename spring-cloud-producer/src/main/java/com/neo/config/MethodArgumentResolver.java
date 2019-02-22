@@ -1,5 +1,6 @@
-package com.neo.config;
+package com.wesdom.wdsp.config;
 
+import com.neo.config.JsonArgumentResolverHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -22,7 +23,7 @@ public class MethodArgumentResolver {
     @PostConstruct
     public void injectSelfMethodArgumentResolver() {
         List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
-        argumentResolvers.add(new JsonObjectArgResolverHandler());
+        argumentResolvers.add(new JsonArgumentResolverHandler());
         argumentResolvers.addAll(adapter.getArgumentResolvers());
         adapter.setArgumentResolvers(argumentResolvers);
     }

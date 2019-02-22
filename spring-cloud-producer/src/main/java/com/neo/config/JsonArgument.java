@@ -1,5 +1,8 @@
 package com.neo.config;
 
+import org.springframework.core.annotation.AliasFor;
+import org.springframework.web.bind.annotation.ValueConstants;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +16,16 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JsonObject {
+public @interface JsonArgument {
+    @AliasFor("name")
     String value() default "";
-    boolean required() default true;
+
+    @AliasFor("value")
+    String name() default "";
+
+    //默认取false处理
+    boolean required() default false;
+
+    String defaultValue() default ValueConstants.DEFAULT_NONE;
+
 }

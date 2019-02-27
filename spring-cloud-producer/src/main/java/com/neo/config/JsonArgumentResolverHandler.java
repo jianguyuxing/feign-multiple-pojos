@@ -114,8 +114,8 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
         // 实例化
         Object target = clazz.newInstance();
 
-        //是对象或数组时
-        if(JsonUtil.isJsonObject(value) || JsonUtil.isJsonArray(value)){
+        //是对象
+        if(JsonUtil.isJsonObject(value)){
             JSON json = JSONObject.parseObject(value);
             Object o = JSONObject.toJavaObject(json, clazz);
             BeanUtils.copyProperties(o, target);

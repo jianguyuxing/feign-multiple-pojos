@@ -2,8 +2,8 @@ package com.neo.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.neo.config.JsonArgument;
-import com.neo.config.JsonUtil;
+import com.neo.common.WdspException;
+import com.neo.common.WdspMultipartFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
@@ -57,7 +59,7 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
 
         if (value == null) {
             if(jsonAnno.required() == true ){
-                throw new RuntimeException("required param: \"" + paramName + "\"not supported");
+                throw new WdspException("required param: \"" + paramName + "\"not supported");
             }
             return null;
         }
@@ -100,7 +102,7 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
         //接收类型是数组或变长参数
         if(clazz.isArray()){
             Class elementType = clazz.getComponentType();
-            List list = (List)JSONObject.parseArray(value, elementType);
+            List list = JSONObject.parseArray(value, elementType);
             int size = list == null ? 0 : list.size();
             Object[] arr =(Object[]) Array.newInstance(elementType, size);
             if(list != null){
@@ -108,6 +110,34 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
             }
             return arr;
         }
+
+        //TODO 测试文件能否解析，这个应该看看是否能在发送端解决。
+        if(MultipartFile.class.isAssignableFrom(clazz)){
+            JSONObject jsonObj = JSONObject.parseObject(value);
+            String name = jsonObj.get("name") + "";
+            String originalFilename = jsonObj.get("originalFilename") + "";
+            String contentType = jsonObj.get("contentType") + "";
+            //发送端已将byte数组转为字符串发送
+            String bytesStr = (String) jsonObj.get("bytes");
+
+            byte[] arr = new byte[]{};
+            if (StringUtils.hasText(bytesStr)){
+                //发送端已将byte数组转为字符串发送
+                //二进制文件byte数组转为字符串传输时需要进行base64等编解码
+                arr = new BASE64Decoder().decodeBuffer(bytesStr);
+                //处理数据
+                for (int i = 0;i<arr.length;++i){
+                    if(arr[i]<0){
+                        arr[i]+=256;
+                    }
+                }
+                jsonObj.put("bytes", arr);
+            }
+            WdspMultipartFile file = new WdspMultipartFile(name , originalFilename , contentType , arr);
+            BeanUtils.copyProperties(jsonObj, file);
+            return file;
+        }
+
 
         //普通POJO
 

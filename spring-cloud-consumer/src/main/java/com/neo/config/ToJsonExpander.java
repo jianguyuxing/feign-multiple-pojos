@@ -2,10 +2,13 @@ package com.neo.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
+
+import java.io.IOException;
 
 /**
  * @Author Gu Yuxing
@@ -18,15 +21,34 @@ public class ToJsonExpander implements Param.Expander {
 
     @Override
     public String expand(Object value) {
-        Object json  = JSONObject.toJSON(value);
         String str = null;
-        if(json.getClass().isInstance(new String())){
-            //本身是字符串的再调用会在双引号外多加双引号，所以不再调用toJsonString方法
-            str = json + "";
-        }else {
-            str = JSONObject.toJSONString(value,  SerializerFeature.WriteNonStringValueAsString);
-        }
+        try {
+            Object json  = JSONObject.toJSON(value);
+            str = null;
+            if(value == null){
+                return "";
+            }
+            if(json.getClass().isInstance(new String())){
+                str = json + "";
+            }else if(MultipartFile.class.isAssignableFrom(value.getClass())){
+                MultipartFile file = (MultipartFile)value;
+                byte[] bytes = file.getBytes();
+                String byteStr = "";
+                if(bytes != null && bytes.length > 0){
+                    //二进制文件采用字符串形式传输需经过base64等编解码
+                    byteStr = new BASE64Encoder().encode(bytes);
+                    ((JSONObject) json).put("bytes", byteStr);
+                    Object result = JSONObject.toJSON(json);
+                    str = result + "";
+                }
 
+            }
+            else {
+                str = JSONObject.toJSONString(value,  SerializerFeature.WriteNonStringValueAsString);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return str;
     }
 }

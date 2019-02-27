@@ -1,6 +1,5 @@
 package com.neo.config;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.RequestInterceptor;
@@ -59,7 +58,7 @@ public class CharlesRequestInterceptor implements RequestInterceptor {
                             val = vals.get(0);
                         }else{
                             //把key对应的list合并到一个值中
-                            val = JSONObject.toJSONString(entry.getValue());
+                            val = entry.getValue().toString();
                         }
                     }
 
@@ -71,7 +70,7 @@ public class CharlesRequestInterceptor implements RequestInterceptor {
                 newMap.put(key, list);
 
             }
-            template.queries(newMap).queries(newMap);
+            template.queries(newMap).resolve(newMap);
             template.body(null);
 //            System.out.println(obj);
         } catch (UnsupportedEncodingException e) {

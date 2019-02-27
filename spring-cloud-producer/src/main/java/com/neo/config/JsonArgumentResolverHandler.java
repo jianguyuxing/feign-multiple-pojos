@@ -97,7 +97,7 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
             return JSONObject.parse(value);
         }
 
-        //接收类型是数组
+        //接收类型是数组或变长参数
         if(clazz.isArray()){
             Class elementType = clazz.getComponentType();
             List list = (List)JSONObject.parseArray(value, elementType);
@@ -180,7 +180,7 @@ public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolve
         }
         if(clz.equals(byte.class) || clz.equals(Byte.class)){
             try {
-                return value.getBytes("UTF-8");
+                return value.getBytes("UTF-8")[0];
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

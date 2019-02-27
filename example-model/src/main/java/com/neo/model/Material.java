@@ -21,17 +21,6 @@ public class Material {
     public Material() {
     }
 
-    public Material(String title) {
-        this.title = title;
-    }
-
-    public Material(String title, String source) {
-        this.title = title;
-        this.source = source;
-    }
-
-
-
     public String getTitle() {
         return title;
     }

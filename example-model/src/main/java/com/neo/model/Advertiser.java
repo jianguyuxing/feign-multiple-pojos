@@ -15,10 +15,6 @@ public class Advertiser {
     public Advertiser() {
     }
 
-    public Advertiser(String companyName) {
-        this.companyName = companyName;
-    }
-
     public String getCompanyName() {
         return companyName;
     }

@@ -14,7 +14,7 @@ import java.io.IOException;
  * @Author Gu Yuxing
  * @Create 2019-02-17 20:28
  **/
-@Component
+//@Component
 public class ToJsonExpander implements Param.Expander {
 
     private static ObjectMapper objectMapper = new ObjectMapper();

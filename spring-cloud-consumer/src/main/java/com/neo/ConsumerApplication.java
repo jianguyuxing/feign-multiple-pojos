@@ -1,6 +1,8 @@
 package com.neo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neo.config.FeignSpringFormEncoder;
+import feign.codec.Encoder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -36,6 +38,30 @@ public class ConsumerApplication {
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(list);
 		return mappingJackson2HttpMessageConverter;
 	}
+
+//	//文件上传支持 与springboot中默认的multipartResolver冲突，待会关闭默认再开启。
+//	@Bean(name = "multipartResolver")
+//	public MultipartResolver multipartResolver() {
+//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//		//set the max upload size 100MB
+//		multipartResolver.setMaxUploadSize(1024000000);
+//		multipartResolver.setDefaultEncoding("utf-8");
+//		multipartResolver.setMaxInMemorySize(1024);
+//		try {
+//			multipartResolver.setUploadTempDir(new FileSystemResource("D:/testFile/temp"));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return multipartResolver;
+//	}
+
+
+	//feign 发送文件编码器
+	@Bean
+	public Encoder FeignSpringFormEncoder(){
+		return new FeignSpringFormEncoder();
+	}
+
 
 
 }

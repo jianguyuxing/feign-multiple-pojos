@@ -12,6 +12,8 @@ public class Advertiser {
      */
     private String companyName;
 
+    private Integer testAdvNum;
+
     public Advertiser() {
     }
 
@@ -23,10 +25,19 @@ public class Advertiser {
         this.companyName = companyName;
     }
 
+    public Integer getTestAdvNum() {
+        return testAdvNum;
+    }
+
+    public void setTestAdvNum(Integer testAdvNum) {
+        this.testAdvNum = testAdvNum;
+    }
+
     @Override
     public String toString() {
         return "Advertiser{" +
                 "companyName='" + companyName + '\'' +
+                ", testAdvNum=" + testAdvNum +
                 '}';
     }
 }

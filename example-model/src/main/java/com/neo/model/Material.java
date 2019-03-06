@@ -18,6 +18,11 @@ public class Material {
      */
     private String source;
 
+    /**
+     * 贴片时长
+     */
+    private Integer duration;
+
     public Material() {
     }
 
@@ -37,13 +42,20 @@ public class Material {
         this.source = source;
     }
 
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
-//        return "Material{" +
-//                "title='" + title + '\'' +
-//                ", source='" + source + '\'' +
-//                '}';
-
-        return JSONObject.toJSONString(this);
+        return "Material{" +
+                "title='" + title + '\'' +
+                ", source='" + source + '\'' +
+                ", duration=" + duration +
+                '}';
     }
 }

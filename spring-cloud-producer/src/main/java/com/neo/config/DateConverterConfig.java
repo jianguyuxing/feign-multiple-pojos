@@ -14,7 +14,7 @@ import java.util.List;
  * @author
  *
  */
-@Component
+//@Component
 public class DateConverterConfig implements Converter<String, Date> {
 
     private static final List<String> formarts = new ArrayList<>(4);

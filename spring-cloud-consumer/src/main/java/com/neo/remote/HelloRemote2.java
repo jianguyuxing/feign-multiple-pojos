@@ -3,9 +3,11 @@ package com.neo.remote;
 import com.neo.config.ToJsonExpander;
 import com.neo.model.Advertiser;
 import com.neo.model.Material;
+import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -22,19 +24,27 @@ public interface HelloRemote2 {
 
     @RequestLine(value = "POST /hello3")
     public String hello3(
-                         @Param(value = "name", expander = ToJsonExpander.class) String name,
-                         @Param(value = "number", expander = ToJsonExpander.class) int number,
-                         @Param(value = "number2", expander = ToJsonExpander.class)Integer number2,
-                         @Param(value = "advertiser", expander = ToJsonExpander.class) Advertiser advertiser,
-                         @Param(value = "material", expander = ToJsonExpander.class) Material material,
-                         @Param(value = "date", expander = ToJsonExpander.class) Date date,
-//                         @Param(value = "materials", expander = ToJsonExpander.class) List<Material> materials,
-                         @Param(value = "advertiserMap", expander = ToJsonExpander.class) Map<String, Advertiser> advertiserMap
+                         @Param(value = "name") String name,
+                         @Param(value = "number") int number,
+                         @Param(value = "number2")Integer number2,
+                         @Param(value = "advertiser") Advertiser advertiser,
+                         @Param(value = "material") Material material,
+                         @Param(value = "date") Date date,
+                         @Param(value = "materials") List<Material> materials,
+                         @Param(value = "advertiserMap") Map<String, Advertiser> advertiserMap,
+                         @Param(value= "nums") List<Integer> nums,
+                         @Param(value= "map2") Map map2
                          );
 
     @RequestLine(value = "POST /hello4")
     public List<Integer> hello4(
-            @Param(value = "name", expander = ToJsonExpander.class) String name,
-            @Param(value = "list", expander = ToJsonExpander.class) List<Integer> list
+            @Param(value = "name") String name,
+//            @Param(value = "list") List<Integer> list,
+            @Param(value = "file1") MultipartFile file1,
+            @Param(value = "file2") MultipartFile file2,
+            @Param(value = "files") MultipartFile[] files
+
     );
 }
+
+

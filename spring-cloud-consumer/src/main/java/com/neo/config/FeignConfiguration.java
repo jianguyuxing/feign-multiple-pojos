@@ -1,7 +1,9 @@
 package com.neo.config;
 
 import feign.Contract;
+import feign.Feign;
 import feign.RequestInterceptor;
+import feign.codec.Encoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,10 +21,16 @@ public class FeignConfiguration {
         return new feign.Contract.Default();
     }
 
-    @Bean
-    public RequestInterceptor requestInterceptor(){
-        return new CharlesRequestInterceptor();
-    }
+//	//feign接收pojo解码器
+//	@Bean
+//	public Decoder JacksonDecoder(){
+//		return new JacksonDecoder();
+//	}
+
+//    @Bean
+//    public RequestInterceptor requestInterceptor(){
+//        return new CharlesRequestInterceptor();
+//    }
 
 //    @Bean
 //    public Contract springMVCContract() {
@@ -36,26 +44,6 @@ public class FeignConfiguration {
 //        return new SpringMvcContract();
 //    }
 
-    //解决feign不支持header
-//    @Bean
-//    public RequestInterceptor headerInterceptor() {
-//        return new RequestInterceptor() {
-//            @Override
-//            public void apply(RequestTemplate requestTemplate) {
-//                ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-//                        .getRequestAttributes();
-//                HttpServletRequest request = attributes.getRequest();
-//                Enumeration<String> headerNames = request.getHeaderNames();
-//                if (headerNames != null) {
-//                    while (headerNames.hasMoreElements()) {
-//                        String name = headerNames.nextElement();
-//                        String values = request.getHeader(name);
-//                        requestTemplate.header(name, values);
-//                    }
-//                }
-//            }
-//        };
-//    }
 
 }
 

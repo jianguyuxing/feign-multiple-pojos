@@ -29,15 +29,15 @@ public class HelloController {
 
     @RequestMapping(value = "/hello3")
     public String index3(
-            @RequestPart String name,
-            @RequestPart int number,
-            @RequestPart Integer number2,
-            @RequestPart Advertiser advertiser,
-            @RequestPart Material material,
-            @RequestPart Date date,
-            @RequestPart List<Material> materials,
-            @RequestPart Map<String, Advertiser> advertiserMap,
-            @RequestPart List nums,
+            @RequestPart(value = "name", required = false) String name,
+            @RequestPart(value = "number", required = false) int number,
+            @RequestPart(value = "number2", required = false) Integer number2,
+            @RequestPart(value = "advertiser", required = false) Advertiser advertiser,
+            @RequestPart(value = "material", required = false) Material material,
+            @RequestPart(value = "date", required = false) Date date,
+            @RequestPart(value = "materials", required = false) List<Material> materials,
+            @RequestPart(value = "advertiserMap", required = false) Map<String, Advertiser> advertiserMap,
+            @RequestPart(value = "nums", required = false) List nums,
             @RequestPart("map2") Map map2
             ) {
         String result = "hello3成功进入生产者 \n";
@@ -58,9 +58,9 @@ public class HelloController {
     public List<Integer> index4(
             @RequestParam String name,
 //            @JsonArgument(name="list") List<Integer> list,
-            @RequestPart MultipartFile file1,
-            @RequestPart MultipartFile file2,
-            @RequestPart MultipartFile[] files) {
+            @RequestPart(value = "file1", required = false) MultipartFile file1,
+            @RequestPart(value = "file2", required = false) MultipartFile file2,
+            @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
         String result = "hello4成功进入生产者 \n";
 //        String filePath = "D:\\testFile\\producer";

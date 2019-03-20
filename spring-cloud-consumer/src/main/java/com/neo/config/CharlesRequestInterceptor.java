@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Configurable
+//现在不采用该方案，因为无法发送大文件及大对象，留作案例备忘
 public class CharlesRequestInterceptor implements RequestInterceptor {
     @Autowired
     private ObjectMapper objectMapper;

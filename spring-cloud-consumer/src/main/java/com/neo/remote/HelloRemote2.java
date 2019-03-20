@@ -5,6 +5,7 @@ import com.neo.model.Advertiser;
 import com.neo.model.Material;
 import feign.Headers;
 import feign.Param;
+import feign.QueryMap;
 import feign.RequestLine;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,20 +27,20 @@ public interface HelloRemote2 {
     public String hello3(
                          @Param(value = "name") String name,
                          @Param(value = "number") int number,
-                         @Param(value = "number2")Integer number2,
+                         @Param(value = "number2") Integer number2,
                          @Param(value = "advertiser") Advertiser advertiser,
                          @Param(value = "material") Material material,
                          @Param(value = "date") Date date,
                          @Param(value = "materials") List<Material> materials,
                          @Param(value = "advertiserMap") Map<String, Advertiser> advertiserMap,
-                         @Param(value= "nums") List<Integer> nums,
-                         @Param(value= "map2") Map map2
+                         @Param(value = "nums") List<Integer> nums,
+                         @Param(value = "map2") Map map2
                          );
 
     @RequestLine(value = "POST /hello4")
     public List<Integer> hello4(
             @Param(value = "name") String name,
-//            @Param(value = "list") List<Integer> list,
+//          @Param(value = "list") List<Integer> list,
             @Param(value = "file1") MultipartFile file1,
             @Param(value = "file2") MultipartFile file2,
             @Param(value = "files") MultipartFile[] files

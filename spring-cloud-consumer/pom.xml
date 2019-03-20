@@ -25,11 +25,28 @@
 		<spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
 		<docker.image.prefix>docker-communication</docker.image.prefix>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-core</artifactId>
+			<version>9.7.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -50,20 +67,16 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.47</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+		<!--字节码相关操作工具-->
+		<!--获取接口方法名的工具-->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.24.1-GA</version>
+		</dependency>
+
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -88,6 +101,26 @@
 				</configuration>
 			</plugin>
 			<!-- Docker maven plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- since 2.0 -->
+				<configuration>
+					<!-- use the Java 8 language features -->
+					<source>1.8</source>
+					<!-- want the compiled classes to be compatible with JVM 1.8 -->
+					<target>1.8</target>
+					<!-- The -encoding argument for the Java compiler. -->
+					<encoding>UTF-8</encoding>
+					<!--&lt;!&ndash;开启debug模式以保留源码中元信息供反射调用&ndash;&gt;-->
+					<!--<debug>true</debug>-->
+					<!--<debuglevel>lines,vars,source</debuglevel>-->
+					<!--<compilerArgs>-->
+						<!--&lt;!&ndash;jdk1.8编译后保留方法参数名用于动态获取必须开启&ndash;&gt;-->
+						<!--<arg>-parameters</arg>-->
+					<!--</compilerArgs>-->
+				</configuration>
+			</plugin>
 		</plugins>
 		<finalName>consumer</finalName>
 	</build>

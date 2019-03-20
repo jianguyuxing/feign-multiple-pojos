@@ -15,10 +15,17 @@ import org.springframework.context.annotation.Configuration;
 public class FeignConfiguration {
 
 
-//    启用Fegin自定义注解
+//// 启用Fegin自定义注解
+//    @Bean
+//    public Contract feignContract(){
+//        //重写了feign.Contract.Default 的相关方法。解决@Param参数必须填value的问题
+//        return new MyFeignContract();
+//    }
+
+    //// 启用Fegin自定义注解, 以开启@Param、@RequestLine注解
     @Bean
     public Contract feignContract(){
-        return new feign.Contract.Default();
+        return new Contract.Default();
     }
 
 //	//feign接收pojo解码器

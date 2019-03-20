@@ -14,6 +14,7 @@ import java.io.IOException;
  * @Author Gu Yuxing
  * @Create 2019-02-17 20:28
  **/
+//不启用，留作案例备忘
 //@Component
 public class ToJsonExpander implements Param.Expander {
 

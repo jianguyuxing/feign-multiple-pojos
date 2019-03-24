@@ -32,16 +32,13 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class FeignSpringFormEncoder implements Encoder {
 
-
     private final List<HttpMessageConverter<?>> converters = new RestTemplate().getMessageConverters();
-    private final HttpHeaders multipartHeaders = new HttpHeaders();
-    private final HttpHeaders jsonHeaders = new HttpHeaders();
+
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
     public FeignSpringFormEncoder() {
-        multipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        jsonHeaders.setContentType(MediaType.APPLICATION_JSON);
+
     }
 
     /**
@@ -49,8 +46,12 @@ public class FeignSpringFormEncoder implements Encoder {
      */
     @Override
     public void encode(Object object, Type bodyType, RequestTemplate template) throws EncodeException {
+        final HttpHeaders multipartHeaders = new HttpHeaders();
+        final HttpHeaders jsonHeaders = new HttpHeaders();
+        multipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+        jsonHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (isFormRequest(bodyType)) {
-            encodeMultipartFormRequest((Map<Object, ?>) object, template);
+            encodeMultipartFormRequest((Map<Object, ?>) object, multipartHeaders, template);
         } else {
             encodeRequest(object, jsonHeaders, template);
         }
@@ -64,7 +65,7 @@ public class FeignSpringFormEncoder implements Encoder {
      * @param template
      * @throws EncodeException
      */
-    private void encodeMultipartFormRequest(Map<Object, ?> formMap, RequestTemplate template) throws EncodeException {
+    private void encodeMultipartFormRequest(Map<Object, ?> formMap, HttpHeaders multipartHeaders, RequestTemplate template) throws EncodeException {
         if (formMap == null) {
             throw new EncodeException("Cannot encode request with null form.");
         }
@@ -175,9 +176,30 @@ public class FeignSpringFormEncoder implements Encoder {
             }
         }
         /*
-        we should use a template output stream... this will cause issues if files are too big, 
+        we should use a template output stream... this will cause issues if files are too big,
         since the whole request will be in memory.
          */
+//        //打印此时请求头和body用于测试，header中boudary和body中boudary不一致时将无法解析
+//        String requetUrl = template.url();
+//        if(template.toString().contains(requetUrl)){
+//
+//            String outPStr = outputStream.toString();
+//            StringBuffer sb = new StringBuffer();
+//            sb.append("\r\n");
+//            sb.append("************************  ").append(requetUrl).append(": ").append("headers");
+//            sb.append("  ************************");
+//            sb.append("\r\n");
+//            sb.append(headers);
+//            sb.append("\r\n");
+//            sb.append("************************  ");
+//            sb.append(requetUrl).append(": ").append("outputStrem.toString:").append("  ************************");
+//            sb.append("\r\n");
+//            sb.append(outPStr);
+//            sb.append("\r\n");
+//            sb.append("========================  ").append("outPstr结束").append("  ========================");
+//            sb.append("\r\n");
+//            System.out.println(sb.toString());
+//        }
         template.body(outputStream.toByteArray(), UTF_8);
     }
 

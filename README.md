@@ -1,5 +1,10 @@
 # feign-multiple-pojos
-a demo supports mutiple pojos and file arrs with FeignClient's default Contract by rewrting form-encoder .
+a demo supports mutiple pojos and file arrs with FeignClient's default Contract by rewrting form-encoder.
+
+First,you should use feignContract instead of SpringMVCContract.
+So, you should use @RequestLine to write your url and @Param mark your params in FeignClient.
+
+the most important config under the directory com.neo.config.
 
 使用feign自带Contract，通过重写编码器支持多个pojo与多文件传输。
 

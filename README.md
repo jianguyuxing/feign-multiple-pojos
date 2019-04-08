@@ -8,8 +8,9 @@ a demo supports mutiple pojos and file arrs with FeignClient's default Contract 
 最重要的配置都在config目录下。
 
 Feign默认是不支持多实体传输的。
-这里有两点注意，一是feign默认是采用
-SpringMvcContract。我们需要声明为feign.Contract.Default(),使用feign自带的注解。
+这里需要注意，
+一是feign默认是采用
+SpringMvcContract注解翻译器。我们需要在一个FeignConfiguration文件中声明feign.Contract.Default(),使用feign自带的注解。
 这样例子中的编码器才会生效。
 具体的调用示例见代码
 详细教程参加我的博客 https://blog.csdn.net/qq_34523427/article/details/88863800

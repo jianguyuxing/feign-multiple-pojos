@@ -1,29 +1,21 @@
 package com.neo.model;
 
-import com.alibaba.fastjson.JSONObject;
 
-import java.util.List;
-
-/**
- * 创意素材
- *
- * @author linjintian
- */
 public class Material {
 
     private String title;
 
-    /**
-     * 广告来源
-     */
     private String source;
 
-    /**
-     * 贴片时长
-     */
     private Integer duration;
 
     public Material() {
+    }
+
+    public Material(String title, String source, Integer duration) {
+        this.title = title;
+        this.source = source;
+        this.duration = duration;
     }
 
     public String getTitle() {

@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,88 +20,78 @@ import java.util.Map;
 @RestController
 public class HelloController {
 	
-    @RequestMapping("/hello")
+    @RequestMapping("/producer/hello")
     public String index(@RequestParam(value = "name")String name) {
-        return "hello "+name+"，this is first messge";
+        return "hello "+name+", this is first messge";
     }
 
-    @RequestMapping("/hello2")
+    @RequestMapping("/producer/hello2")
     public String index2(@RequestParam(value = "name") String name) {
-        return "22222222hello "+name+"，this is first messge";
+        return "hello2 "+name+", this is first messge";
     }
 
-    @RequestMapping(value = "/hello3")
+    @RequestMapping(value = "/producer/hello3")
     public String index3(
             @RequestPart(value = "name", required = false) String name,
-            @RequestPart(value = "number", required = false) int number,
-            @RequestPart(value = "number2", required = false) Integer number2,
             @RequestPart(value = "advertiser", required = false) Advertiser advertiser,
             @RequestPart(value = "material", required = false) Material material,
             @RequestPart(value = "date", required = false) Date date,
             @RequestPart(value = "materials", required = false) List<Material> materials,
-            @RequestPart(value = "advertiserMap", required = false) Map<String, Advertiser> advertiserMap,
-            @RequestPart(value = "nums", required = false) List nums,
-            @RequestPart("map2") Map map2
+            @RequestPart(value = "advertiserMap", required = false) Map<String, Advertiser> advertiserMap
             ) {
-        String result = "hello3成功进入生产者 \n";
+        String result = "hello3 Producer in \n";
         result += " name: " + name;
-        result += " number: " + number;
-        result += " number2: " + number2;
         result += " \n ------------" + JSONObject.toJSONString(advertiser);
         result += " \n ------------ " + material;
         result += " \n ------------ " + date;
         result += " \n ------------ " + materials;
         result += " \n ------------ " + advertiserMap;
-        result += " \n ------------ " + nums;
-        result += " \n ------------ " + map2;
         return result;
     }
 
-    @RequestMapping(value = "/hello4")
+    @RequestMapping(value = "/producer/hello4")
     public List<Integer> index4(
             @RequestParam String name,
-//            @JsonArgument(name="list") List<Integer> list,
+            @RequestPart(value = "number", required = false) Integer number,
             @RequestPart(value = "file1", required = false) MultipartFile file1,
             @RequestPart(value = "file2", required = false) MultipartFile file2,
             @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
-        String result = "hello4成功进入生产者 \n";
-//        String filePath = "D:\\testFile\\producer";
-//        File localFile = new File(filePath + "\\1.jpg");
-//        try {
-//            if (!localFile.exists()) {
-//                localFile.createNewFile();
-//            }
-//            if (file1 != null && !file1.isEmpty()) {
-//                file1.transferTo(localFile);
-//            }
-//
-//            File localFile2 = new File(filePath + "\\2.jpg");
-//            if (!localFile2.exists()) {
-//                localFile2.createNewFile();
-//            }
-//            if (file2 != null && !file2.isEmpty()) {
-//                file2.transferTo(localFile2);
-//            }
+        String result = "hello4 producer in name: " + name + " number: " + number;
+        String filePath = "D:\\testFile\\producer";
+        File localFile = new File(filePath + "\\1.jpg");
+        try {
+            if (!localFile.exists()) {
+                localFile.createNewFile();
+            }
+            if (file1 != null && !file1.isEmpty()) {
+                file1.transferTo(localFile);
+            }
 
-//            for (int i = 0; i < files.length; i++) {
-//                MultipartFile file = files[i];
-//                int num = i + 100;
-//                File localFile_i = new File(filePath + "\\" + num + ".jpg");
-//                if (!localFile_i.exists()) {
-//                    localFile_i.createNewFile();
-//                }
-//                if (file != null && !file.isEmpty()) {
-//                    file.transferTo(localFile_i);
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        List list = new ArrayList();
-        list.add(2);
-        result += list;
+            File localFile2 = new File(filePath + "\\2.jpg");
+            if (!localFile2.exists()) {
+                localFile2.createNewFile();
+            }
+            if (file2 != null && !file2.isEmpty()) {
+                file2.transferTo(localFile2);
+            }
+
+            for (int i = 0; i < files.length; i++) {
+                MultipartFile file = files[i];
+                int num = i + 100;
+                File localFile_i = new File(filePath + "\\" + num + ".jpg");
+                if (!localFile_i.exists()) {
+                    localFile_i.createNewFile();
+                }
+                if (file != null && !file.isEmpty()) {
+                    file.transferTo(localFile_i);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println(result);
+        List<Integer> list = new ArrayList(Arrays.asList(new Integer[]{1,2}));
         return list;
     }
 

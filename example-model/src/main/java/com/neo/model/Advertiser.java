@@ -3,18 +3,20 @@ package com.neo.model;
 /**
  * 广告主
  *
- * @author linjintian
+ * @author
  */
 public class Advertiser {
 
-    /**
-     * 公司注册名称
-     */
     private String companyName;
 
     private Integer testAdvNum;
 
     public Advertiser() {
+    }
+
+    public Advertiser(String companyName, Integer testAdvNum) {
+        this.companyName = companyName;
+        this.testAdvNum = testAdvNum;
     }
 
     public String getCompanyName() {

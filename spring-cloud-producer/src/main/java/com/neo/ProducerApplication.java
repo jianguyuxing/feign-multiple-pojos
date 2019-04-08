@@ -7,7 +7,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,14 +35,4 @@ public class ProducerApplication  {
 		return mappingJackson2HttpMessageConverter;
 	}
 
-//	//文件上传支持
-//	@Bean(name = "multipartResolver")
-//	public CommonsMultipartResolver multipartResolver() {
-//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//		//set the max upload size 100MB
-//		multipartResolver.setMaxUploadSize(1024000000);
-//		multipartResolver.setDefaultEncoding("utf-8");
-//		multipartResolver.setMaxInMemorySize(1024);
-//		return multipartResolver;
-//	}
 }

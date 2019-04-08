@@ -1,4 +1,4 @@
-package com.neo.config;
+package com.neo.config.deparecatedConf;
 
 import com.neo.util.MethodUtil;
 import feign.Contract;

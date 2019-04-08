@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.neo.config;
+package com.neo.config.deparecatedConf;
 
 
 import feign.FeignException;

@@ -1,4 +1,4 @@
-package com.neo.config;
+package com.neo.config.deparecatedConf;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;

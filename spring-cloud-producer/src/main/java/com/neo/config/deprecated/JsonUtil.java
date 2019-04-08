@@ -1,4 +1,4 @@
-package com.neo.config;
+package com.neo.config.deprecated;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

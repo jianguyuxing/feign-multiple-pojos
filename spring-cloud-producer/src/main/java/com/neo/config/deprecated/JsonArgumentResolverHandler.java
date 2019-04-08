@@ -1,4 +1,4 @@
-package com.neo.config;
+package com.neo.config.deprecated;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -6,7 +6,6 @@ import com.neo.common.WdspException;
 import com.neo.common.WdspMultipartFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -32,7 +31,7 @@ import java.util.Set;
  * @Author Gu Yuxing
  * @Create 2019-02-16 18:06
  **/
-@Component
+//@Component
 public class JsonArgumentResolverHandler implements HandlerMethodArgumentResolver {
 
     @Override

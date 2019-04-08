@@ -4,13 +4,13 @@ a demo supports mutiple pojos and file arrs with FeignClient's default Contract 
 First,you should use feignContract instead of SpringMVCContract.
 So, you should use @RequestLine to write your url and @Param mark your params in FeignClient.
 
-the most important config under the directory com.neo.config.
+the most important config under the directory com.neo.config, you can see FeignConfiguration.java especially.
 
 使用feign自带Contract，通过重写编码器支持多个pojo与多文件传输。
 
 文件上传demo,用了三个文件夹 D:\testFile, D:\testFile\producer, D:\testFile\temp写死了三个文件夹用于测试文件上传相关，手动在电脑中建立一下。Mac自己改一下代码中配置的路径。
 
-最重要的配置都在config目录下。
+最重要的配置都在config目录下,尤其是FeignConfiguration。
 
 Feign默认是不支持多实体传输的。
 这里需要注意<br>

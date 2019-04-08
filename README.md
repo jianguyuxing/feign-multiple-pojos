@@ -3,7 +3,7 @@ a demo supports mutiple pojos and file arrs with FeignClient's default Contract 
 
 使用feign自带Contract，通过重写编码器支持多个pojo与多文件传输。
 
-文件上传demo,用了三个文件夹 D:\testFile, D:\testFile\producer, D:\testFile\temp写死了三个文件夹用于测试，手动在电脑中建立一下。Mac自己改一下路径。
+文件上传demo,用了三个文件夹 D:\testFile, D:\testFile\producer, D:\testFile\temp写死了三个文件夹用于测试文件上传相关，手动在电脑中建立一下。Mac自己改一下代码中配置的路径。
 
 最重要的配置都在config目录下。
 
